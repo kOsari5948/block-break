@@ -64,13 +64,13 @@ public class MyView extends View {
         rect.right = xstep + size;
         rect.bottom = xstep + size;
 
-        blockXpos = 100; // 블록의 시작 위치
-        blockYpos = 100;
-        blockXsize = 35;
-        blockYsize = 10; // 블록의 크기
+        blockXpos = 35; // 블록의 시작 위치
+        blockYpos = 35;
+        blockXsize = 100;
+        blockYsize = 35; // 블록의 크기
 
         // 블록 배열객체 생성 초기
-        blocks = new Block[50][30]; //블록 여러개
+        blocks = new Block[15][10]; //블록 여러개
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[i].length; j++) {
                 blocks[i][j] = new Block(blockXpos + j * (blockXsize + 2), blockYpos + i * (blockYsize + 2), blockXsize, blockYsize, true);
