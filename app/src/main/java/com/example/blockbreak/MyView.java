@@ -10,7 +10,7 @@ import android.view.View;
 
 import java.util.Random;
 
-protected class MyView extends View {
+public class MyView extends View {
     int xstep; // 공의 x좌표
     int ystep; // 공의 y좌표
     int xMov; // 공의 X 축 증감
@@ -178,6 +178,4 @@ protected class MyView extends View {
         }
         return false;
     }
-}
-
 }
