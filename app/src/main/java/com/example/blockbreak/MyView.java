@@ -33,15 +33,15 @@ public class MyView extends View {
 
     public MyView(Context context) {
         super(context); // 화면안의 랜덤한 위치에 생성
-        xstep = new Random().nextInt(50);
-        ystep = new Random().nextInt(50); // 임의의 위치에 생성
-        angle = new Random().nextInt(360);
+        xstep =500;
+        ystep =1800; // 임의의 위치에 생성
+        angle = 90; //90 수직 하강- 270 수직 상승
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
         xMov= mv.xMov;
         yMov=mv.yMov;
 
-        size = 15; // 네모크기 4로 설정
+        size = 60; // 네모크기 4로 설정
 
         xBar = 100;
         yBar = 2000;
