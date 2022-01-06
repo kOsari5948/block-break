@@ -1,10 +1,13 @@
 package com.example.blockbreak;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -34,15 +37,15 @@ public class MyView extends View {
 
     public MyView(Context context) {
         super(context); // 화면안의 랜덤한 위치에 생성
-        xstep = new Random().nextInt(50);
-        ystep = new Random().nextInt(50); // 임의의 위치에 생성
-        angle = new Random().nextInt(360);
+        xstep =500;
+        ystep =1800; // 임의의 위치에 생성
+        angle = 90; //90 수직 하강- 270 수직 상승
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
         xMov = mv.xMov;
         yMov = mv.yMov;
 
-        size = 15; // 네모크기 4로 설정
+        size = 60; // 네모크기 4로 설정
 
         xBar = 100;
         yBar = 2000;
@@ -86,24 +89,35 @@ public class MyView extends View {
         canvas.drawColor(Color.WHITE); // 하얀색 배경
 
         // 왼쪽 벽에 부딧친 경우(오른쪽 일수도 있음)
-        if (xstep + size > getWidth()) {
-            makeAngle(90, 180);
-            xstep = getWidth() - size;
-        }
-        // 윗쪽벽에 부딧친 경우
         if (xstep < 0) {
+            //위로 올라가면서 부딪침
+            Log.d("left", angle+"");
             makeAngle(270, 180);
             xstep = 0;
         }
-
-        // 오른쪽벽 부딧친 경우
+        // 윗쪽벽에 부딧친 경우
         if (ystep < 0) {
+
+            Log.d("up", angle+"");
+
             makeAngle(0, 180);
             ystep = 0;
         }
 
+        // 오른쪽벽 부딧친 경우
+        if (xstep + size > getWidth()) { //xstep < 0
+
+            Log.d("right", angle+"");
+            makeAngle(90,180);
+            xstep = getWidth() - size;
+
+
+        }
+
         //아래쪽 벽
         if (ystep + size > getHeight()) {
+
+            Log.d("down", angle+"");
             makeAngle(180, 180);
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
         }
