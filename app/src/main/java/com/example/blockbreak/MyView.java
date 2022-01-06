@@ -39,7 +39,7 @@ public class MyView extends View {
         super(context); // 화면안의 랜덤한 위치에 생성
         xstep =500;
         ystep =1800; // 임의의 위치에 생성
-        angle = 90; //90 수직 하강- 270 수직 상승
+        angle = new Random().nextInt(360); //90 수직 하강- 270 수직 상승
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
         xMov = mv.xMov;
@@ -80,6 +80,14 @@ public class MyView extends View {
     // 선택한 범위의 각도가 생성된다.
     private void makeAngle(int start, int range) {
         angle = new Random().nextInt(range) + start;
+        if(angle>=360) {
+            angle -= 360;
+        }
+    }
+    private void remakeAngle(int start, int middle){
+        int a;
+        a= middle - start;
+        angle = (middle + a) + 180;
     }
 
     //★안드로이드 코드 내부에 있는 거 계속 갱신★
@@ -92,7 +100,9 @@ public class MyView extends View {
         if (xstep < 0) {
             //위로 올라가면서 부딪침
             Log.d("left", angle+"");
-            makeAngle(270, 180);
+
+            remakeAngle(angle,180);
+
             xstep = 0;
         }
         // 윗쪽벽에 부딧친 경우
@@ -100,7 +110,8 @@ public class MyView extends View {
 
             Log.d("up", angle+"");
 
-            makeAngle(0, 180);
+            remakeAngle(angle,270);
+
             ystep = 0;
         }
 
@@ -108,9 +119,10 @@ public class MyView extends View {
         if (xstep + size > getWidth()) { //xstep < 0
 
             Log.d("right", angle+"");
-            makeAngle(90,180);
-            xstep = getWidth() - size;
 
+            remakeAngle(angle,0);
+
+            xstep = getWidth() - size;
 
         }
 
@@ -118,7 +130,7 @@ public class MyView extends View {
         if (ystep + size > getHeight()) {
 
             Log.d("down", angle+"");
-            makeAngle(180, 180);
+            remakeAngle(angle, 90);
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
         }
         Movement mm = new Movement(angle);
@@ -139,11 +151,11 @@ public class MyView extends View {
                 if (blocks[i][j].Box_Exit) {
                     n = blocks[i][j].isCrash(rect);    //벽돌 부수기
                     if (n == 1) { // 블록이 위에있는 경우 위쪽으로 튀게한다.
-                        makeAngle(0, 180);
+                        remakeAngle(angle, 90);
                         blocks[i][j].breakBlock();
                         break;
                     } else if (n == 2) { // 블록이 아래있는경우 아래쪽으로 튀게한다.
-                        makeAngle(180, 180);
+                        remakeAngle(angle, 270);
                         blocks[i][j].breakBlock();
                         break;
                     }
@@ -153,7 +165,7 @@ public class MyView extends View {
 
         // 바와 공이 겹칠경우 윗쪽으로 튀게 한다
         if (Rect.intersects(barRect, rect)) {
-            makeAngle(180, 180);
+            remakeAngle(angle, 90);
         }
 
         canvas.drawRect(rect, pnt); // 공 그리기
