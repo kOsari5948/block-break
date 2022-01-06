@@ -156,9 +156,7 @@ public class MyView extends View {
 
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            xstep = (int) event.getX();
-            // 공의 좌표를 (터치인듯 손가락 위치 인듯 모르겠음 불명)
-            ystep = (int) event.getY();
+
 
             // 바의 중앙보다 터치위치가 더 오른쪽이면
             if (event.getX() > xBar + barWidth / 2)
