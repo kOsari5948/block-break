@@ -1,10 +1,10 @@
 package com.example.blockbreak;
 
 public class Movement{ // 위치 생성 클래스
-    int xMov;
-    int yMov;
+    public int xMov;
+    public int yMov;
     Movement(double angle){
-        xMov=Math.round(Math.round(Math.cos(Math.toRadians(angle)) * 6));
-        yMov=Math.round(Math.round(Math.sin(Math.toRadians(angle)) * 6));
+        xMov=Math.round(Math.round(Math.cos(Math.toRadians(angle)) * 30));
+        yMov=Math.round(Math.round(Math.sin(Math.toRadians(angle)) * 30));
     }
 }

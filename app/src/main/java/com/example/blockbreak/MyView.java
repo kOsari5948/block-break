@@ -16,7 +16,6 @@ public class MyView extends View {
     int xMov; // 공의 X 축 증감
     int yMov; // 공의 Y 축 증감
 
-    int movement = 6; // 공의 이동속도 0.1 초당 6픽
     int angle; // 공의 이동각도
     int size; // 공의 크기
 
@@ -24,8 +23,8 @@ public class MyView extends View {
     Rect barRect; // 바 사각 영역
     int xBar; // 바의 x위치
     int yBar; // 바의 y 위치
-    int barWidth = 60;// 바의 너비
-    int barHeight = 10; // 바의 높이
+    int barWidth = 500;// 바의 너비
+    int barHeight = 40; // 바의 높이
     int blockXpos; // 블록의 시작위치
     int blockYpos;
     int blockSize; // 블록의 크기
@@ -38,14 +37,14 @@ public class MyView extends View {
         ystep = new Random().nextInt(50); // 임의의 위치에 생성
         angle = new Random().nextInt(360);
         // 생성된 각도로 x 증감, y 증감 계
-        xMov = Math.round(Math.round(Math.cos(Math.toRadians(angle))
-                * movement)); //대각선 이동시에 속도 지정
-        yMov = Math.round(Math.round(Math.sin(Math.toRadians(angle))
-                * movement)); //대각선 이동시에 속도 지정
+        Movement mv = new Movement(angle);
+        xMov= mv.xMov;
+        yMov=mv.yMov;
+
         size = 15; // 네모크기 4로 설정
 
         xBar = 100;
-        yBar = 300;
+        yBar = 2000;
 
         barRect = new Rect();//바
 
@@ -108,11 +107,9 @@ public class MyView extends View {
             makeAngle(180, 180);
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
         }
-
-        xMov = Math.round(Math.round(Math.cos(Math.toRadians(angle))
-                * movement));
-        yMov = Math.round(Math.round(Math.sin(Math.toRadians(angle))
-                * movement));
+        Movement mm= new Movement(angle);
+        xMov=mm.xMov;
+        yMov=mm.yMov;
 
         xstep += xMov; // 네모 이
         ystep += yMov; // 오른쪽 벽에 부딧친 경우
@@ -160,9 +157,9 @@ public class MyView extends View {
 
             // 바의 중앙보다 터치위치가 더 오른쪽이면
             if (event.getX() > xBar + barWidth / 2)
-                xBar += 20; // 바를 오른쪽으로 이동
+                xBar += 60; // 바를 오른쪽으로 이동
             else
-                xBar -= 20; // 바를 왼쪽으로 이동
+                xBar -= 60; // 바를 왼쪽으로 이동
 
             barRect.left = xBar;
             barRect.top = yBar;
