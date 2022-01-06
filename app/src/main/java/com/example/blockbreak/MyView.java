@@ -27,9 +27,10 @@ public class MyView extends View {
     int barHeight = 40; // 바의 높이
     int blockXpos; // 블록의 시작위치
     int blockYpos;
-    int blockSize; // 블록의 크기
+    int blockXsize;
+    int blockYsize;// 블록의 크기
 
-    Block[] blocks;
+    Block[][] blocks;
 
     public MyView(Context context) {
         super(context); // 화면안의 랜덤한 위치에 생성
@@ -38,8 +39,8 @@ public class MyView extends View {
         angle = new Random().nextInt(360);
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
-        xMov= mv.xMov;
-        yMov=mv.yMov;
+        xMov = mv.xMov;
+        yMov = mv.yMov;
 
         size = 15; // 네모크기 4로 설정
 
@@ -62,18 +63,17 @@ public class MyView extends View {
 
         blockXpos = 100; // 블록의 시작 위치
         blockYpos = 100;
-        blockSize = 35; // 블록의 크기
+        blockXsize = 35;
+        blockYsize = 10; // 블록의 크기
 
-        // 블록 배열객체 생성 초기화
-        blocks = new Block[4]; //블록 여러개
-        for (int i = 0; i < blocks.length / 2; i++) {
-            blocks[i] = new Block(blockXpos + i * (blockSize + 2), blockYpos, blockSize, blockSize, true);
-        } //첫번째 줄 블록 <블록 간 간격 2>
-        for (int i = 0; i < blocks.length / 2; i++) {
-            blocks[i + 2] = new Block(blockXpos + i * (blockSize + 2), blockYpos + blockSize + 2, blockSize, blockSize, true);
-        }//두번째 줄 블록 < 위아래 첫번째와 블록 간격 2>
+        // 블록 배열객체 생성 초기
+        blocks = new Block[50][30]; //블록 여러개
+        for (int i = 0; i < blocks.length; i++) {
+            for (int j = 0; j < blocks[i].length; j++) {
+                blocks[i][j] = new Block(blockXpos + j * (blockXsize + 2), blockYpos + i * (blockYsize + 2), blockXsize, blockYsize, true);
+            }
+        } // 블록 생성
     }
-
     // 선택한 범위의 각도가 생성된다.
     private void makeAngle(int start, int range) {
         angle = new Random().nextInt(range) + start;
@@ -107,9 +107,9 @@ public class MyView extends View {
             makeAngle(180, 180);
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
         }
-        Movement mm= new Movement(angle);
-        xMov=mm.xMov;
-        yMov=mm.yMov;
+        Movement mm = new Movement(angle);
+        xMov = mm.xMov;
+        yMov = mm.yMov;
 
         xstep += xMov; // 네모 이
         ystep += yMov; // 오른쪽 벽에 부딧친 경우
@@ -121,17 +121,18 @@ public class MyView extends View {
 
         int n;
         for (int i = 0; i < blocks.length; i++) {
-            if (blocks[i].Box_Exit) {
-
-                n = blocks[i].isCrash(rect);    //벽돌 부수기
-                if (n == 1) { // 블록이 위에있는 경우 위쪽으로 튀게한다.
-                    makeAngle(0, 180);
-                    blocks[i].breakBlock();
-                    break;
-                } else if (n == 2) { // 블록이 아래있는경우 아래쪽으로 튀게한다.
-                    makeAngle(180, 180);
-                    blocks[i].breakBlock();
-                    break;
+            for (int j = 0; j < blocks[i].length; j++) {
+                if (blocks[i][j].Box_Exit) {
+                    n = blocks[i][j].isCrash(rect);    //벽돌 부수기
+                    if (n == 1) { // 블록이 위에있는 경우 위쪽으로 튀게한다.
+                        makeAngle(0, 180);
+                        blocks[i][j].breakBlock();
+                        break;
+                    } else if (n == 2) { // 블록이 아래있는경우 아래쪽으로 튀게한다.
+                        makeAngle(180, 180);
+                        blocks[i][j].breakBlock();
+                        break;
+                    }
                 }
             }
         }
@@ -145,12 +146,13 @@ public class MyView extends View {
         canvas.drawRect(xBar - barWidth / 2, yBar, xBar + barWidth, yBar + 10, pnt);
         pnt.setColor(Color.YELLOW);
         for (int i = 0; i < blocks.length; i++) {
-            if (blocks[i].Box_Exit) {
-                canvas.drawRect(blocks[i].Box_Rect, pnt);
+            for (int j = 0; j < blocks[i].length; j++) {
+                if (blocks[i][j].Box_Exit) {
+                    canvas.drawRect(blocks[i][j].Box_Rect, pnt);
+                }
             }
         }
     }
-
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
