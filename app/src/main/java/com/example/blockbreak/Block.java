@@ -25,9 +25,11 @@ public class Block{ //블록 생성클래스
         // ball의 사각영역과 Box_Rect의 사각영역이 겹치면
         if( Rect.intersects( ball, Box_Rect ) )
         {
-            if( Box_Rect.top > ball.top ) // 블록이 위에있다.
+            if( Box_Rect.bottom < ball.top ) // 구가 블록의 아래를 때림.
                 return 1;
-            else // 아래에 있다.
+            else if(x+width==ball.left) //구가 블록 왼쪽을 때림
+
+            else // 구가 블록의 위를 때림
                 return 2;
         }
         return 0; // 겹치지 않으면 0  리턴

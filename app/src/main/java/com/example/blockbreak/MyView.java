@@ -177,6 +177,8 @@ public class MyView extends View {
             }
         }
 
+
+
         // 바와 공이 겹칠경우 윗쪽으로 튀게 한다
         if (Rect.intersects(barRect, rect)) {
             remakeAngle(angle, 90);
