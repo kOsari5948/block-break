@@ -87,7 +87,7 @@ public class MyView extends View {
         blocks = new Block[15][10]; //블록 여러개
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[i].length; j++) {
-                blocks[i][j] = new Block(blockXpos + j * (blockXsize + 2), blockYpos + i * (blockYsize + 2), blockXsize, blockYsize, true);
+                blocks[i][j] = new Block(blockXpos + j * (blockXsize + 300), blockYpos + i * (blockYsize + 300), blockXsize, blockYsize+100, true);
             }
         } // 블록 생성
     }
@@ -164,12 +164,20 @@ public class MyView extends View {
             for (int j = 0; j < blocks[i].length; j++) {
                 if (blocks[i][j].Box_Exit) {
                     n = blocks[i][j].isCrash(rect);    //벽돌 부수기
-                    if (n == 1) { // 블록이 위에있는 경우 위쪽으로 튀게한다.
+                    if (n == 1) { // 블록이 아래 경우 위쪽으로 튀게한다.
                         remakeAngle(angle, 90);
                         blocks[i][j].breakBlock();
                         break;
-                    } else if (n == 2) { // 블록이 아래있는경우 아래쪽으로 튀게한다.
+                    } else if (n == 2) { // 블록이 위의 경우 아래쪽으로 튀게한다.
                         remakeAngle(angle, 270);
+                        blocks[i][j].breakBlock();
+                        break;
+                    }else if(n==3){ //오른쪽 때림
+                        remakeAngle(angle, 180);
+                        blocks[i][j].breakBlock();
+                        break;
+                    }else if(n==4){// 왼쪽 때림
+                        remakeAngle(angle, 0);
                         blocks[i][j].breakBlock();
                         break;
                     }

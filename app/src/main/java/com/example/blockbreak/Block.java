@@ -25,12 +25,17 @@ public class Block{ //블록 생성클래스
         // ball의 사각영역과 Box_Rect의 사각영역이 겹치면
         if( Rect.intersects( ball, Box_Rect ) )
         {
-            if( Box_Rect.bottom < ball.top ) // 구가 블록의 아래를 때림.
+            // 구가 블록의 위를 때림
+            if( Box_Rect.top-Box_Rect.width()/2 >= ball.bottom && Box_Rect.right == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) {
                 return 1;
-            else if(x+width==ball.left) //구가 블록 왼쪽을 때림
-
-            else // 구가 블록의 위를 때림
+            }else if(Box_Rect.top == ball.bottom && Box_Rect.right-10 == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) { //오른쪽 때림
+                return 3;
+            }else if(Box_Rect.top == ball.bottom && Box_Rect.right-10 == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top){ //왼쪽 때림
+                return 4;
+            }
+            else if(Box_Rect.top == ball.bottom && Box_Rect.right-10 == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) {//구가 블록의 아래를 때림
                 return 2;
+            }
         }
         return 0; // 겹치지 않으면 0  리턴
     }
