@@ -183,7 +183,7 @@ public class MyView extends View {
         }
 
         canvas.drawRect(rect, pnt); // 공 그리기
-        canvas.drawRect(xBar - barWidth / 2, yBar, xBar + barWidth, yBar + 10, pnt);
+        canvas.drawRect(xBar - barWidth / 2, yBar, xBar + barWidth / 2, yBar + 10, pnt);
         pnt.setColor(Color.YELLOW);
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[i].length; j++) {
@@ -195,16 +195,7 @@ public class MyView extends View {
     }
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            // 바의 중앙보다 터치위치가 더 오른쪽이면
-            if (event.getX() > xBar + barWidth / 2)
-                xBar += 60; // 바를 오른쪽으로 이동
-            else
-                xBar -= 60; // 바를 왼쪽으로 이동
 
-            barRect.left = xBar;
-            barRect.top = yBar;
-            barRect.right = barRect.left + barWidth;
-            barRect.bottom = barRect.top + barHeight; // 바의 사각영역 설정
             return true;
 
         }
