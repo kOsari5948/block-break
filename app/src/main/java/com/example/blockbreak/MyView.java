@@ -43,8 +43,7 @@ public class MyView extends View {
     public MyView(Context context) {
 
         super(context); // 화면안의 랜덤한 위치에 생성
-        xstep =500;
-        ystep =1800; // 임의의 위치에 생성
+
         angle = new Random().nextInt(360); //90 수직 하강- 270 수직 상승
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
@@ -55,6 +54,9 @@ public class MyView extends View {
 
         xBar = 100;
         yBar =  (deviceHeight-bottomBarHeight)*92/100 ;
+
+        xstep =500;
+        ystep =yBar - 200; // 임의의 위치에 생성
         //diveheight 디바이스 전체 높이 네비게이션 바 빼고
         //bottombarHeight 네비게이션 바 만큼
         
@@ -64,9 +66,9 @@ public class MyView extends View {
 
         barRect = new Rect();//바
 
-        barRect.left = xBar;
+        barRect.left = xBar-barWidth/2;
         barRect.top = yBar;
-        barRect.right = barRect.left + barWidth;
+        barRect.right = xBar+barWidth/2;
         barRect.bottom = barRect.top + barHeight; // 바의 사각영역 설정
 
         rect = new Rect(); //공
@@ -193,8 +195,6 @@ public class MyView extends View {
     }
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-
             // 바의 중앙보다 터치위치가 더 오른쪽이면
             if (event.getX() > xBar + barWidth / 2)
                 xBar += 60; // 바를 오른쪽으로 이동
@@ -210,14 +210,11 @@ public class MyView extends View {
         }
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
-            if (event.getX() > xBar + barWidth / 2)
-                xBar += 60; // 바를 오른쪽으로 이동
-            else
-                xBar -= 60; // 바를 왼쪽으로 이동
+            xBar = (int)event.getX();
 
-            barRect.left = xBar;
+            barRect.left = xBar-barWidth/2;
             barRect.top = yBar;
-            barRect.right = barRect.left + barWidth;
+            barRect.right = xBar+barWidth/2;
             barRect.bottom = barRect.top + barHeight; // 바의 사각영역 설정
 
             return true;
