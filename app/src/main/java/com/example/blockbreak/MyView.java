@@ -2,11 +2,16 @@ package com.example.blockbreak;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.blockbreak.MainActivity.bottomBarHeight;
+import static com.example.blockbreak.MainActivity.deviceHeight;
+import static com.example.blockbreak.MainActivity.deviceWidth;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +41,7 @@ public class MyView extends View {
     Block[][] blocks;
 
     public MyView(Context context) {
+
         super(context); // 화면안의 랜덤한 위치에 생성
         xstep =500;
         ystep =1800; // 임의의 위치에 생성
@@ -48,7 +54,13 @@ public class MyView extends View {
         size = 60; // 네모크기 4로 설정
 
         xBar = 100;
-        yBar = 2000;
+        yBar =  (deviceHeight-bottomBarHeight)*92/100 ;
+        //diveheight 디바이스 전체 높이 네비게이션 바 빼고
+        //bottombarHeight 네비게이션 바 만큼
+        
+        //deviceHeight-bottomBarHeight 화면에보이는 영역(네비게이션 바에 살짝 겹침)
+        
+        //92/100 만 이용해서 튕기는 바 생성
 
         barRect = new Rect();//바
 
@@ -127,7 +139,7 @@ public class MyView extends View {
         }
 
         //아래쪽 벽
-        if (ystep + size > getHeight()) {
+        if (ystep + size > deviceHeight-bottomBarHeight ) {
 
             Log.d("down", angle+"");
             remakeAngle(angle, 90);
