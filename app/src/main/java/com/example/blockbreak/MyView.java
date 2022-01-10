@@ -11,10 +11,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.Image;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -39,6 +41,13 @@ public class MyView extends View {
     int blockYsize;// 블록의 크기
 
     Block[][] blocks;
+
+    Life[] life;
+    int heart = 3;
+    int lifeXpos; // 라이프의 위치
+    int lifeYpos;
+    int lifeXsize;
+    int lifeYsize;// 라이프의 크기
 
     public MyView(Context context) {
 
@@ -79,7 +88,7 @@ public class MyView extends View {
         rect.bottom = xstep + size;
 
         blockXpos = 35; // 블록의 시작 위치
-        blockYpos = 35;
+        blockYpos = 70;
         blockXsize = 100;
         blockYsize = 35; // 블록의 크기
 
@@ -90,6 +99,16 @@ public class MyView extends View {
                 blocks[i][j] = new Block(blockXpos + j * (blockXsize + 300), blockYpos + i * (blockYsize + 300), blockXsize, blockYsize+100, true);
             }
         } // 블록 생성
+
+        lifeXpos = 10; // 라이프의 위치
+        lifeYpos = 10;
+        lifeXsize = 50;
+        lifeYsize = 50; // 라이프의 크기
+
+        life = new Life[heart];
+        for (int i = 0;i<life.length;i++) {
+            life[i] = new Life(lifeXpos + i * (lifeXsize + 30), lifeYpos,lifeXsize,lifeYsize,true);
+        }
     }
     // 선택한 범위의 각도가 생성된다.
     private void makeAngle(int start, int range) {
@@ -140,12 +159,19 @@ public class MyView extends View {
 
         }
 
-        //아래쪽 벽
+        //아래쪽 벽 부딧친 경우
         if (ystep + size > deviceHeight-bottomBarHeight ) {
 
             Log.d("down", angle+"");
             remakeAngle(angle, 90);
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
+            
+            life[(heart-1)].breakLife();
+            heart = heart -1;
+            
+            if(heart == 0) {
+                // 게임오버
+            }
         }
         Movement mm = new Movement(angle);
         xMov = mm.xMov;
@@ -200,6 +226,12 @@ public class MyView extends View {
                 if (blocks[i][j].Box_Exit) {
                     canvas.drawRect(blocks[i][j].Box_Rect, pnt);
                 }
+            }
+        }
+        pnt.setColor(Color.RED);
+        for (int i = 0; i < life.length; i++) {
+            if (life[i].life_Exit) {
+                canvas.drawRect(life[i].life_Rect, pnt);
             }
         }
     }

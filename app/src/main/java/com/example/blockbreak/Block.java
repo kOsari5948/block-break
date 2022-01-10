@@ -41,7 +41,5 @@ public class Block{ //블록 생성클래스
     }
 
     // 블록을 부순다
-    void breakBlock(){
-        Box_Exit = false;
-    }
+    void breakBlock(){ Box_Exit = false; }
 }
