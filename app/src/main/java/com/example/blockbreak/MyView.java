@@ -197,6 +197,17 @@ public class MyView extends View {
 
         }
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+            if (event.getX() > xBar + barWidth / 2)
+                xBar += 60; // 바를 오른쪽으로 이동
+            else
+                xBar -= 60; // 바를 왼쪽으로 이동
+
+            barRect.left = xBar;
+            barRect.top = yBar;
+            barRect.right = barRect.left + barWidth;
+            barRect.bottom = barRect.top + barHeight; // 바의 사각영역 설정
+
             return true;
         }
         return false;
