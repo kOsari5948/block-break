@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     public static int deviceWidth;
     public static int deviceHeight;
     public static int bottomBarHeight = 0;
+    int a=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +32,6 @@ public class MainActivity extends AppCompatActivity {
         vw = new MyView(this);
         setContentView(vw);
 
-        Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                Intent intent = new Intent(MainActivity.this, OverActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        if (vw.heart == 0 ) {
-            handler.sendEmptyMessageDelayed(0, 500); // 0.5초후 화면전환
-        }
-
         mHandler.sendEmptyMessage( 0 );
 
     }
@@ -51,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
             if (msg.what == 0) { // 화면을 갱신해줌
                 vw.invalidate();
                 mHandler.sendEmptyMessageDelayed( 0, 50 );
+            }
+            if (vw.heart == 0 &&a==0) {
+                Intent intent = new Intent(MainActivity.this, OverActivity.class);
+                startActivity(intent);
+                a=1;
+                finish();
             }
         }
     };

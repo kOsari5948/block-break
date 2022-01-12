@@ -1,6 +1,7 @@
 package com.example.blockbreak;
 
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Block{ //블록 생성클래스
     int x;
@@ -40,12 +41,18 @@ public class Block{ //블록 생성클래스
             }
 
             if(xx< ball.centerY() && ball.centerY()> Box_Rect.centerY()){
+                Log.d("test", "1");
                 return 1; //위
+                //위
             }else if(xx> ball.centerY() && ball.centerY()< Box_Rect.centerY()){ //위 아래 오른 왼
+                Log.d("test", "2");
                 return 2; //아래
+               //아래
             }else if(yy< ball.centerX() && ball.centerX()> Box_Rect.centerX()){ //오른쪽
+                Log.d("test", "3");
                 return 3;
             }else if(yy> ball.centerX() && ball.centerX()< Box_Rect.centerX()){ //왼쪽
+                Log.d("test", "4");
                 return 4;
             }
 
