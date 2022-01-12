@@ -18,6 +18,7 @@ public class Block{ //블록 생성클래스
         this.height = height;
         Box_Exit = exist;
         Box_Rect = new Rect( x, y, x + width, y + height ); // 왼쪽, 아래, 오른쪽, 위
+
     } // Block 생성자 끝
 
     // 블록이 ball 사각영역과 겹치는 부분이 존재하는지 판별한다.
@@ -25,8 +26,34 @@ public class Block{ //블록 생성클래스
         // ball의 사각영역과 Box_Rect의 사각영역이 겹치면
         if( Rect.intersects( ball, Box_Rect ) )
         {
+            int xx, yy;
+
+            if(ball.centerX()>Box_Rect.centerX()){
+                xx=ball.centerX();
+            }else{
+                xx = ball.centerX()+2*(Box_Rect.centerX()-ball.centerX()); //원점기준 음수인 x의 절댓값
+            }
+            if(ball.centerY()>Box_Rect.centerY()){
+                yy=ball.centerY();
+            }else{
+                yy = ball.centerY()+2*(Box_Rect.centerY()-ball.centerY()); //원점기준 음수인 y의 절댓값
+            }
+
+            if(xx< ball.centerY() && ball.centerY()> Box_Rect.centerY()){
+                return 1; //위
+            }else if(xx> ball.centerY() && ball.centerY()< Box_Rect.centerY()){ //위 아래 오른 왼
+                return 2; //아래
+            }else if(yy< ball.centerX() && ball.centerX()> Box_Rect.centerX()){ //오른쪽
+                return 3;
+            }else if(yy> ball.centerX() && ball.centerX()< Box_Rect.centerX()){ //왼쪽
+                return 4;
+            }
+
+
+
             // 구가 블록의 위를 때림
-            if( Box_Rect.top-Box_Rect.width()/2 >= ball.bottom && Box_Rect.right == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) {
+            /*if(Box_Rect.centerY() < ball.centerY()) {
+
                 return 1;
             }else if(Box_Rect.top == ball.bottom && Box_Rect.right-10 == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) { //오른쪽 때림
                 return 3;
@@ -35,7 +62,7 @@ public class Block{ //블록 생성클래스
             }
             else if(Box_Rect.top == ball.bottom && Box_Rect.right-10 == ball.left && Box_Rect.left+10 == ball.right && Box_Rect.bottom-10 == ball.top) {//구가 블록의 아래를 때림
                 return 2;
-            }
+            }*/
         }
         return 0; // 겹치지 않으면 0  리턴
     }
