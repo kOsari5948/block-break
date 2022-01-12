@@ -7,6 +7,7 @@ import static com.example.blockbreak.MainActivity.deviceHeight;
 import static com.example.blockbreak.MainActivity.deviceWidth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -53,7 +54,8 @@ public class MyView extends View {
 
         super(context); // 화면안의 랜덤한 위치에 생성
 
-        angle = new Random().nextInt(360); //90 수직 하강- 270 수직 상승
+       // angle = new Random().nextInt(360); //90 수직 하강- 270 수직 상승
+        angle = 90;
         // 생성된 각도로 x 증감, y 증감 계
         Movement mv = new Movement(angle);
         xMov = mv.xMov;
@@ -167,11 +169,10 @@ public class MyView extends View {
             ystep = getHeight() - size; // 벽에 들어가버리는것 방지
             
             life[(heart-1)].breakLife();
-            heart = heart -1;
-            
-            if(heart == 0) {
-                // 게임오버
+            if (heart>0) {
+                heart = heart -1;
             }
+
         }
         Movement mm = new Movement(angle);
         xMov = mm.xMov;

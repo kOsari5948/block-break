@@ -3,6 +3,7 @@ package com.example.blockbreak;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
 
         vw = new MyView(this);
         setContentView(vw);
+
+        Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Intent intent = new Intent(MainActivity.this, OverActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        if (vw.heart == 0 ) {
+            handler.sendEmptyMessageDelayed(0, 500); // 0.5초후 화면전환
+        }
 
         mHandler.sendEmptyMessage( 0 );
 
